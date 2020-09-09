@@ -7,4 +7,5 @@ hamming.o: hamming.c
 	$(CC) -c  hamming.c
 
 clean:
-	rm hamming.o
+	rm hamming *.o
+
