@@ -15,26 +15,61 @@ void initialise(bool *bits)
 	}
 }
 
+void setBit(int pinNo, bool *bits)
+{
+	// set high and update status
+	digitalWrite(pinNo, HIGH);
+	bits[pinNo] = 1;
+}
+
+void clearBit(int pinNo, bool *bits)
+{
+	// set low and update status
+	digitalWrite(pinNo, LOW);
+	bits[pinNo] = 0;
+}
+
 void toggleBit(int pinNo, bool *bits)
 {
+	// switch on if off, or vice versa
 	if (bits[pinNo])
 	{
-		digitalWrite(pinNo, LOW);
-		bits[pinNo] = 0;
+		clearBit(pinNo, bits);
 	}
 	else
 	{
-		digitalWrite(pinNo, HIGH);
-		bits[pinNo] = 1;
+		setBit(pinNo, bits);
 	}
 }
 
-void update(bool *bits)
+void setParityLogic(int pinNo, bool *bits)
 {
+	// needed to read the parity bits and set the lights as appropriate
+	if (bits[pinNo])
+	{
+		digitalWrite(pinNo, HIGH);
+	}
+	else
+	{
+		digitalWrite(pinNo, LOW);
+	}
+}
+
+void parityLogic(bool *bits)
+{
+	// apply hamming code logic
+	bits[4] = bits[3] ^ bits[1] ^ bits[0];
+	bits[5] = bits[3] ^ bits[2] ^ bits[0];
+	bits[6] = bits[3] ^ bits[2] ^ bits[1];
+}
+
+void updateData(bool *bits)
+{
+	// scan for character input and set toggle bit if required
 	int i;
 	scanf("%d", &i);
 	
-	if (i >= 0 && i <= 7)
+	if (i >= 0 && i <= 3)
 	{
 		toggleBit(i, bits);
 	}
@@ -49,7 +84,13 @@ int main(void)
 	
 	while(1)
 	{
-		update(bitStatus);
+		// read input and control data lights
+		updateData(bitStatus);
+		// apply the logic to the parity bits and alter bitStatus array
+		parityLogic(bitStatus);
+		// loop through parity bits and switch light on or off as required
+		for (int j = 4; j < 7; j++)
+			setParityLogic(j, bitStatus);
 	}
 
 	return 0;
