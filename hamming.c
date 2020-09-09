@@ -31,7 +31,9 @@ void toggleBit(int pinNo, bool *bits)
 
 void update(bool *bits)
 {
-	int i = getchar();
+	int i;
+	scanf("%d", &i);
+	
 	if (i >= 0 && i <= 7)
 	{
 		toggleBit(i, bits);
