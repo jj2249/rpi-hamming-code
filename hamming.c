@@ -78,7 +78,7 @@ void updateData(bool *bits)
 
 void printBitset(bool *bits)
 {
-	for (int k = 0; k < 7; k++)
+	for (int k = 6; k >= 0; k--)
 	{
 		printf(bits[k] ? "1" : "0");
 	}
