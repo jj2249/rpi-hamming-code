@@ -105,7 +105,10 @@ int main(void)
 	// array of seven booleans to keep track of status of the pins
 	// the array will decay to a pointer so pass straight to init function
 	static bool bitStatus[7];
-	initialise(bitStatus);	
+	initialise(bitStatus);
+
+	printf("Enter any of 0-3 to toggle data bits. Enter 8 to exit...\n");
+
 	while(1)
 	{
 		// read input and control data lights
