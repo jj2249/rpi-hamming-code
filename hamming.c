@@ -1,12 +1,20 @@
 #include <stdbool.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <wiringPi.h>
+
+void setAllLow(bool *bits); // forward declaration
 
 void initialise(bool *bits)
 {
 	// call to wiringPi.h setup function
 	wiringPiSetup();
 	// set all pints to output and initialse LOW
+	setAllLow(bits);
+}
+
+void setAllLow(bool *bits)
+{
 	for (int i = 0; i < 7; i++)
 	{
 		pinMode(i, OUTPUT);
@@ -73,6 +81,13 @@ void updateData(bool *bits)
 	{
 		toggleBit(i, bits);
 	}
+	
+	// use eight as the exit code
+	else if (i == 8)
+	{
+		setAllLow(bits);
+		exit(-1);
+	}
 	fflush(stdin);
 }
 
@@ -104,6 +119,5 @@ int main(void)
 		}
 		printBitset(bitStatus);
 	}
-
 	return 0;
 }
