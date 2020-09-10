@@ -73,6 +73,16 @@ void updateData(bool *bits)
 	{
 		toggleBit(i, bits);
 	}
+	fflush(stdin);
+}
+
+void printBitset(bool *bits)
+{
+	for (int k = 0; k < 7; k++)
+	{
+		printf(bits[k] ? "1" : "0");
+	}
+	printf("\n");
 }
 
 int main(void)
@@ -80,8 +90,7 @@ int main(void)
 	// array of seven booleans to keep track of status of the pins
 	// the array will decay to a pointer so pass straight to init function
 	static bool bitStatus[7];
-	initialise(bitStatus);
-	
+	initialise(bitStatus);	
 	while(1)
 	{
 		// read input and control data lights
@@ -90,7 +99,10 @@ int main(void)
 		parityLogic(bitStatus);
 		// loop through parity bits and switch light on or off as required
 		for (int j = 4; j < 7; j++)
+		{
 			setParityLogic(j, bitStatus);
+		}
+		printBitset(bitStatus);
 	}
 
 	return 0;
