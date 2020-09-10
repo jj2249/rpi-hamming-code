@@ -7,7 +7,7 @@ void initialise(bool *bits)
 	// call to wiringPi.h setup function
 	wiringPiSetup();
 	// set all pints to output and initialse LOW
-	for (int i; i < 7; i++)
+	for (int i = 0; i < 7; i++)
 	{
 		pinMode(i, OUTPUT);
 		digitalWrite(i, LOW);
